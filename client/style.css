@@ -1,0 +1,18 @@
+canvas {
+  border: 2px solid black;
+  display: block;
+}
+
+.player {
+  border: 2px solid black;
+  height: 100px;
+  width: 100px;
+}
+
+#playerLeft {
+  left: 30px;
+}
+
+#playerRight {
+  right: 30px;
+}
