@@ -1,38 +1,30 @@
-const express = require("express");
-const http = require("http");
-const { Server } = require("socket.io");
+const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
 const path = require('path');
-
+const Player = require('./game/player.js');
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-app.use(express.static(path.join(__dirname, "client")));
 
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "index.html"));
+app.use(express.static(path.join(__dirname, 'client')));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'index.html'));
 });
 
 let players = [];
 
-function create_player() {
-    let player = {
-        id: 0,
-        pos_x: 10,
-        pos_y: 0,
-    }
-    return player;
-}
+io.on('connection', (socket) => {
+    console.log('a user connected:', socket.id);
 
-io.on("connection", (socket) => {
-    console.log("a user connected:", socket.id);
-
-    socket.on("disconnect", () => {
-        console.log("a user disconnected:", socket.id);
+    socket.on('disconnect', () => {
+        console.log('a user disconnected:', socket.id);
         players = players.filter(player => player.id !== socket.id);
     });
     
-    let player = create_player();
+    let player = Player.create_player();
     player.id = socket.id
     players.push(player);
 
@@ -51,5 +43,5 @@ io.on("connection", (socket) => {
 });
 
 server.listen(3000, () => {
-    console.log("server is running on port 3000");
+    console.log('server is running on port 3000');
 });
