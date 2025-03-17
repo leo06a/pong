@@ -1,32 +1,49 @@
 const socket = io();
-console.log("Connected to server");
-
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-function createPlayers() {
-    let playerLeft = { x: 50, y: 150, width: 40, height: 40, speed: 5 };
-    let playerRight = { x: canvas.width - 90, y: 150, width: 40, height: 40, speed: 5 };
+let players = [];
 
-}
-
-function draw() {
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key == 'w') {
-            
-        } else if (e.key == 's') {
-
-        }
-    })
+function draw_players() {
+    players.forEach(player => {
+        ctx.fillStyle = "black";
+        ctx.fillRect(player.pos_x, player.pos_y + 10, 20, 100);
+    });
 }
 
 function animate() {
-    draw();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    draw_players();
     requestAnimationFrame(animate);
 }
+
+window.addEventListener('keydown', (e) => {
+    e.preventDefault()
+    for (let i = 0; i < players.length; i++) {
+        if (players[i].id == socket.id) {
+            switch(e.key) {
+                case 'w':
+                    players[i].pos_y -= 3;
+                    break;
+                case 's':
+                    players[i].pos_y += 3;
+                    break;
+                default:
+                    break;
+            }
+        }
+        socket.emit('player_move', players[i]);
+    }
+});
+
+socket.on('players_update', (server_players) => {
+    players = server_players
+    console.log(players);
+});
+
+socket.on('player_move', (updated_player) => {
+    const index = players.findIndex(p => p.id === updated_player.id);
+        players[index] = updated_player;
+});
 
 animate();
