@@ -1,4 +1,4 @@
-import { players } from './script.js';
+import { players } from './data.js';
 import { socket, player_speed } from './constants.js';
 
 window.addEventListener('keydown', (e) => {

@@ -2,11 +2,12 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const path = require('path');
-const Player = require('./game/player.js');
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+const Player = require('./game/player.js');
+const Ball = require('./game/ball.js');
 
 app.use(express.static(path.join(__dirname, 'client')));
 
@@ -15,10 +16,17 @@ app.get('/', (req, res) => {
 });
 
 let players = [];
-
+let ball = {
+    pos_x: 800,
+    pos_y: 400,
+    dx: 5,
+    dy: 5,
+    size: 10
+}
 io.on('connection', (socket) => {
     console.log('a user connected:', socket.id);
-
+    console.log(ball)
+    
     socket.on('disconnect', () => {
         console.log('a user disconnected:', socket.id);
         players = players.filter(player => player.id !== socket.id);
@@ -41,6 +49,13 @@ io.on('connection', (socket) => {
         io.emit('player_move', updated_player);
     });
 });
+
+setInterval(() => {
+    ball = Ball.update_ball(ball, players); 
+    console.log(ball)
+    io.emit('ball_update', ball); 
+}, 1000 / 60); 
+
 
 server.listen(3000, () => {
     console.log('server is running on port 3000');
