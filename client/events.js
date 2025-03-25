@@ -1,5 +1,5 @@
 import { players } from './data.js';
-import { socket, player_speed } from './constants.js';
+import { socket, player_speed, canvas } from './constants.js';
 
 window.addEventListener('keydown', (e) => {
     e.preventDefault()

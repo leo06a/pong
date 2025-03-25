@@ -1,8 +1,6 @@
 import { players, ball } from './data.js';
 import { ctx, canvas } from './constants.js';
 
-console.log(ball)
-
 function draw_players() {
     players.forEach(player => {
         ctx.fillStyle = "black";

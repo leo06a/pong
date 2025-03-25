@@ -23,13 +23,14 @@ let ball = {
     dy: 5,
     size: 10
 }
+
 io.on('connection', (socket) => {
     console.log('a user connected:', socket.id);
-    console.log(ball)
     
     socket.on('disconnect', () => {
         console.log('a user disconnected:', socket.id);
         players = players.filter(player => player.id !== socket.id);
+        io.emit('players_update', players);
     });
     
     let player = Player.create_player();
@@ -52,7 +53,6 @@ io.on('connection', (socket) => {
 
 setInterval(() => {
     ball = Ball.update_ball(ball, players); 
-    console.log(ball)
     io.emit('ball_update', ball); 
 }, 1000 / 60); 
 
