@@ -5,16 +5,24 @@ function check_collision(ball, player) {
     );
 }
 
+let winner = null;
+
 function update_ball(ball, players) {
     if (!ball) return;
 
     ball.pos_x += ball.dx;
     ball.pos_y += ball.dy;
 
-    if (ball.pos_x - ball.size <= 0 || ball.pos_x + ball.size >= 1600) {
-        ball.dx *= -1; 
-    } else if (ball.pos_y - ball.size <= 0 || ball.pos_y + ball.size >= 800) {
+    if (ball.pos_y - ball.size <= 0 || ball.pos_y + ball.size >= 800) {
         ball.dy *= -1; 
+    } else if (ball.pos_x - ball.size <= 0) {
+        // right player win
+        winner = 'right player wins';
+        ball.dx *= -1;
+    } else if (ball.pos_x + ball.size >= 1600) {
+        // left player win
+        winner = 'left player wins';
+        ball.dx *= -1;
     }
 
     players.forEach(player => {
@@ -22,7 +30,7 @@ function update_ball(ball, players) {
             ball.dx *= -1;
         }
     });
-    return ball;
+    return { ball, winner };
 }
 
 module.exports = {

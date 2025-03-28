@@ -8,4 +8,8 @@ socket.on('player_move', (updated_player) => {
         players[index] = updated_player;
 });
 
+socket.on('game_over', (winner) => {
+    alert(winner);
+});
+
 animate();

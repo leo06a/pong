@@ -23,6 +23,7 @@ let ball = {
     dy: 5,
     size: 10
 }
+let result = null;
 
 io.on('connection', (socket) => {
     console.log('a user connected:', socket.id);
@@ -39,6 +40,15 @@ io.on('connection', (socket) => {
 
     if (players.length > 1) {
         players[1].pos_x = 1570;
+        setInterval(() => {
+            result = Ball.update_ball(ball, players); 
+        
+            if (result.winner != null) {
+                io.emit('game_over', result.winner);
+            }
+        
+            io.emit('ball_update', result.ball); 
+        }, 1000 / 60); 
     }
 
     io.emit('players_update', players);
@@ -50,11 +60,6 @@ io.on('connection', (socket) => {
         io.emit('player_move', updated_player);
     });
 });
-
-setInterval(() => {
-    ball = Ball.update_ball(ball, players); 
-    io.emit('ball_update', ball); 
-}, 1000 / 60); 
 
 
 server.listen(3000, () => {
