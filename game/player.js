@@ -1,13 +1,10 @@
-function create_player() {
-    let player = {
-        id: 0,
-        pos_x: 10,
-        pos_y: 0,
-        speed: 10
+class Player {
+    constructor(socket_id) {
+        this.id = socket_id,
+        this.pos_x = 10,
+        this.pos_y = 0,
+        this.speed = 10
     }
-    return player;
 }
 
-module.exports = {
-    create_player
-}
+module.exports = Player;

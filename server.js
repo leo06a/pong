@@ -17,14 +17,23 @@ app.get('/', (req, res) => {
 });
 
 let players = [];
-let ball = {
-    pos_x: 450,
-    pos_y: 225,
-    dx: 5,
-    dy: 5,
-    size: 10
+let ball = new Ball();
+let update;
+
+function start_game_loop() {
+    let game_loop = setInterval(() => {
+        update = ball.update(players);
+
+        if (update.winner) {
+            io.emit('game_over', update.winner);
+            clearInterval(game_loop);
+            return;
+        }
+
+        io.emit('game_init');
+        io.emit('ball_update', update.ball);
+    }, 1000 / 60);
 }
-let update = null;
 
 io.on('connection', (socket) => {
     console.log('a user connected:', socket.id);
@@ -35,25 +44,12 @@ io.on('connection', (socket) => {
         io.emit('players_update', players);
     });
     
-    let player = Player.create_player();
-    player.id = socket.id
+    let player = new Player(socket.id);
     players.push(player);
 
     if (players.length > 1) {
         players[1].pos_x = 870;
-        let game_loop = setInterval(() => {
-            update = Ball.update_ball(ball, players); 
-
-            if (update.winner) {
-                io.emit('game_over', update.winner);
-                update.ball.dx = 0;
-                update.ball.dy = 0;
-                clearInterval(game_loop);
-            }        
-
-            io.emit('game_init');
-            io.emit('ball_update', update.ball); 
-        }, 1000 / 60); 
+        start_game_loop();
     }
 
     io.emit('players_update', players);
