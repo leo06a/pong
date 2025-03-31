@@ -17,13 +17,13 @@ app.get('/', (req, res) => {
 
 let players = [];
 let ball = {
-    pos_x: 800,
-    pos_y: 400,
+    pos_x: 450,
+    pos_y: 225,
     dx: 5,
     dy: 5,
     size: 10
 }
-let result = null;
+let update = null;
 
 io.on('connection', (socket) => {
     console.log('a user connected:', socket.id);
@@ -39,19 +39,24 @@ io.on('connection', (socket) => {
     players.push(player);
 
     if (players.length > 1) {
-        players[1].pos_x = 1570;
-        setInterval(() => {
-            result = Ball.update_ball(ball, players); 
-        
-            if (result.winner != null) {
-                io.emit('game_over', result.winner);
-            }
-        
-            io.emit('ball_update', result.ball); 
+        players[1].pos_x = 870;
+        let game_loop = setInterval(() => {
+            update = Ball.update_ball(ball, players); 
+
+            if (update.winner) {
+                io.emit('game_over', update.winner);
+                update.ball.dx = 0;
+                update.ball.dy = 0;
+                clearInterval(game_loop);
+            }        
+
+            io.emit('game_init');
+            io.emit('ball_update', update.ball); 
         }, 1000 / 60); 
     }
 
     io.emit('players_update', players);
+
 
     socket.on('player_move', (updated_player) => {
         const index = players.findIndex(p => p.id === updated_player.id);

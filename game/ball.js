@@ -13,13 +13,13 @@ function update_ball(ball, players) {
     ball.pos_x += ball.dx;
     ball.pos_y += ball.dy;
 
-    if (ball.pos_y - ball.size <= 0 || ball.pos_y + ball.size >= 800) {
+    if (ball.pos_y - ball.size <= 0 || ball.pos_y + ball.size >= 450) {
         ball.dy *= -1; 
     } else if (ball.pos_x - ball.size <= 0) {
         // right player win
         winner = 'right player wins';
         ball.dx *= -1;
-    } else if (ball.pos_x + ball.size >= 1600) {
+    } else if (ball.pos_x + ball.size >= 900) {
         // left player win
         winner = 'left player wins';
         ball.dx *= -1;
