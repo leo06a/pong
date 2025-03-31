@@ -10,8 +10,8 @@ class Ball {
     }
     check_collision(player) {
         return (
-            this.pos_x + this.size > player.pos_x && this.pos_x - this.size < player.pos_x + 20 &&
-            this.pos_y + this.size > player.pos_y && this.pos_y - this.size < player.pos_y + 100
+            this.pos_x + this.size > player.pos_x && this.pos_x - this.size < player.pos_x + player.width &&
+            this.pos_y + this.size > player.pos_y && this.pos_y - this.size < player.pos_y + player.height
         );
     }
     update(players) {

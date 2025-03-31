@@ -1,3 +1,6 @@
+function check_boundaries(player) {
+}
+
 function handle_event(key, players, socket_id, io) {
     for (let i = 0; i < players.length; i++) {
         if (players[i].id == socket_id) {
@@ -10,6 +13,12 @@ function handle_event(key, players, socket_id, io) {
                     break;
                 default:
                     break;
+            }
+
+            if (players[i].pos_y <= 0) {
+                players[i].pos_y = 0;
+            } else if (players[i].pos_y >= 450 - players[i].height) {
+                players[i].pos_y = 450 - players[i].height;
             }
             io.emit('player_move', players[i]);
         }

@@ -3,7 +3,7 @@ import { ctx, canvas } from './constants.js';
 function draw_players(players) {
     players.forEach(player => {
         ctx.fillStyle = "black";
-        ctx.fillRect(player.pos_x, player.pos_y, 20, 100);
+        ctx.fillRect(player.pos_x, player.pos_y, player.width, player.height);
     });
 }
 

@@ -57,8 +57,6 @@ io.on('connection', (socket) => {
 
     socket.on('player_move', (key, socket_id) => {
         Events.handle_event(key, players, socket_id, io);
-    
-        // io.emit('player_move', );
     });
 });
 

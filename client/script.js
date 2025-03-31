@@ -1,17 +1,10 @@
-import { socket } from './constants.js';
+import { socket, winner_div } from './constants.js';
 import { animate } from './functions.js';
 import './events.js';
 
 let isAnimating;
-let winner_div = document.getElementById('winner');
 let players = [];
-let ball = {
-    pos_x: 800,
-    pos_y: 400,
-    dx: 5,
-    dy: 5,
-    size: 10
-}; 
+let ball;
 
 socket.on('game_init', () => {
     isAnimating = true;
