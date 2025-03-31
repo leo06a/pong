@@ -3,6 +3,7 @@ function create_player() {
         id: 0,
         pos_x: 10,
         pos_y: 0,
+        speed: 10
     }
     return player;
 }

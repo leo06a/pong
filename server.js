@@ -8,6 +8,7 @@ const io = new Server(server);
 
 const Player = require('./game/player.js');
 const Ball = require('./game/ball.js');
+const Events = require('./game/events.js');
 
 app.use(express.static(path.join(__dirname, 'client')));
 
@@ -58,11 +59,10 @@ io.on('connection', (socket) => {
     io.emit('players_update', players);
 
 
-    socket.on('player_move', (updated_player) => {
-        const index = players.findIndex(p => p.id === updated_player.id);
-        players[index].pos_y = updated_player.pos_y; 
+    socket.on('player_move', (key, socket_id) => {
+        Events.handle_event(key, players, socket_id, io);
     
-        io.emit('player_move', updated_player);
+        // io.emit('player_move', );
     });
 });
 
