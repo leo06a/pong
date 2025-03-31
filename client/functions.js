@@ -15,9 +15,9 @@ function draw_ball(ball) {
     ctx.stroke();
 }
 
-export function animate(players) {
+export function animate(players, ball) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     draw_players(players);
     draw_ball(ball);
-    requestAnimationFrame(animate);
+    requestAnimationFrame(() => animate(players, ball));
 }

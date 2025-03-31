@@ -16,7 +16,7 @@ let ball = {
 socket.on('game_init', () => {
     isAnimating = true;
     if (isAnimating) {
-        animate();
+        animate(players, ball);
     } 
 });
 
