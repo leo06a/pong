@@ -19,14 +19,22 @@ app.get('/', (req, res) => {
 let players = [];
 let ball = new Ball();
 let update;
+let game_loop;
+
+function reset_game() {
+    ball = new Ball();
+    update = null;
+    game_loop = null;
+}
 
 function start_game_loop() {
-    let game_loop = setInterval(() => {
+    game_loop = setInterval(() => {
         update = ball.update(players);
 
         if (update.winner) {
             io.emit('game_over', update.winner);
             clearInterval(game_loop);
+            game_loop = null;
             return;
         }
 
@@ -41,19 +49,22 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('a user disconnected:', socket.id);
         players = players.filter(player => player.id !== socket.id);
+
         io.emit('players_update', players);
     });
     
-    let player = new Player(socket.id);
-    players.push(player);
-
-    if (players.length > 1) {
-        players[1].pos_x = 870;
-        start_game_loop();
-    }
-
-    io.emit('players_update', players);
-
+    socket.on('join_game', () => {
+        let player = new Player(socket.id);
+        players.push(player);
+    
+        if (players.length > 1) {
+            players[1].pos_x = 870;
+                start_game_loop();
+        }
+    
+        io.emit('players_update', players);
+    
+    });
 
     socket.on('player_move', (key, socket_id) => {
         Events.handle_event(key, players, socket_id, io);
