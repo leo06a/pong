@@ -6,7 +6,8 @@ class Ball {
         this.pos_y = 225,
         this.dx = 5,
         this.dy = 5,
-        this.size = 10
+        this.size = 10,
+        this.winner = null
     }
     check_collision(player) {
         return (
@@ -23,9 +24,11 @@ class Ball {
         if (this.pos_y - this.size <= 0 || this.pos_y + this.size >= 450) {
             this.dy *= -1; 
         } else if (this.pos_x - this.size <= 0) {
-            winner = 'right player wins';
+            this.winner = 'right player wins';
+            
         } else if (this.pos_x + this.size >= 900) {
-            winner = 'left player wins';
+            this.winner = 'left player wins';
+            
         }
     
         players.forEach(player => {
@@ -33,7 +36,7 @@ class Ball {
                 this.dx *= -1;
             }
         });
-        return { ball: this, winner };
+        return { ball: this, winner: this.winner };
     }
 }
 

@@ -9,6 +9,7 @@ const io = new Server(server);
 const Player = require('./game/player.js');
 const Ball = require('./game/ball.js');
 const Events = require('./game/events.js');
+const { restart } = require('nodemon');
 
 app.use(express.static(path.join(__dirname, 'client')));
 
@@ -19,29 +20,8 @@ app.get('/', (req, res) => {
 let players = [];
 let ball = new Ball();
 let update;
-let game_loop;
-
-function reset_game() {
-    ball = new Ball();
-    update = null;
-    game_loop = null;
-}
-
-function start_game_loop() {
-    game_loop = setInterval(() => {
-        update = ball.update(players);
-
-        if (update.winner) {
-            io.emit('game_over', update.winner);
-            clearInterval(game_loop);
-            game_loop = null;
-            return;
-        }
-
-        io.emit('game_init');
-        io.emit('ball_update', update.ball);
-    }, 1000 / 60);
-}
+let vote_count = 0;
+let loop = false;
 
 io.on('connection', (socket) => {
     console.log('a user connected:', socket.id);
@@ -59,17 +39,48 @@ io.on('connection', (socket) => {
     
         if (players.length > 1) {
             players[1].pos_x = 870;
-                start_game_loop();
+            io.emit('game_init', ball);
+
+            if (!loop) {
+                loop = true;
+                setInterval(() => {
+                    update = ball.update(players);
+                
+                    if (update.winner) {
+                        io.emit('game_over', update.winner);
+                    }
+                
+                    io.emit('ball_update', update.ball);
+                }, 1000 / 60);
+            }
         }
     
         io.emit('players_update', players);
-    
     });
 
     socket.on('player_move', (key, socket_id) => {
         Events.handle_event(key, players, socket_id, io);
     });
+
+    socket.on('player_vote', () => {
+        vote_count++;
+        if (vote_count === players.length) {
+            vote_count = 0;
+            ball = new Ball();
+            io.emit('reset', ball);
+        }
+    });
 });
+
+// setInterval(() => {
+//     update = ball.update(players);
+
+//     if (update.winner) {
+//         io.emit('game_over', update.winner);
+//     }
+
+//     io.emit('ball_update', update.ball);
+// }, 1000 / 60);
 
 
 server.listen(3000, () => {
