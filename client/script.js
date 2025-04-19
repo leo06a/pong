@@ -1,4 +1,4 @@
-import { socket, winner_div, canvas, join_button, title_screen, ctx } from './constants.js';
+import { socket, winner_div, canvas, join_button, title_screen, ctx, vote_button } from './constants.js';
 import './events.js';
 
 let isAnimating;
@@ -10,8 +10,6 @@ join_button.addEventListener('click', () => {
     title_screen.style.display = 'none';
     socket.emit('join_game');
 });
-
-const vote_button = document.getElementById('vote_button');
 
 vote_button.addEventListener('click', () => {
 	socket.emit('player_vote');

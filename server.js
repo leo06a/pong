@@ -19,13 +19,10 @@ app.get('/', (req, res) => {
 
 let players = [];
 let ball = new Ball();
-let update;
 let vote_count = 0;
 let loop = false;
 
 io.on('connection', (socket) => {
-    console.log('a user connected:', socket.id);
-    
     socket.on('disconnect', () => {
         console.log('a user disconnected:', socket.id);
         players = players.filter(player => player.id !== socket.id);
@@ -34,6 +31,8 @@ io.on('connection', (socket) => {
     });
     
     socket.on('join_game', () => {
+        console.log('a user connected:', socket.id);
+
         let player = new Player(socket.id);
         players.push(player);
     
@@ -44,13 +43,13 @@ io.on('connection', (socket) => {
             if (!loop) {
                 loop = true;
                 setInterval(() => {
-                    update = ball.update(players);
+                    ball.update(players);
                 
-                    if (update.winner) {
-                        io.emit('game_over', update.winner);
+                    if (ball.winner) {
+                        io.emit('game_over', ball.winner);
                     }
                 
-                    io.emit('ball_update', update.ball);
+                    io.emit('ball_update', ball);
                 }, 1000 / 60);
             }
         }
@@ -71,17 +70,6 @@ io.on('connection', (socket) => {
         }
     });
 });
-
-// setInterval(() => {
-//     update = ball.update(players);
-
-//     if (update.winner) {
-//         io.emit('game_over', update.winner);
-//     }
-
-//     io.emit('ball_update', update.ball);
-// }, 1000 / 60);
-
 
 server.listen(3000, () => {
     console.log('server is running on port 3000');

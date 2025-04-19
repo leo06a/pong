@@ -23,10 +23,12 @@ class Ball {
             this.dy *= -1; 
         } else if (this.pos_x - this.size <= 0) {
             this.winner = 'right player wins';
-            
+            this.dy = 0;
+            this.dx = 0;
         } else if (this.pos_x + this.size >= 900) {
             this.winner = 'left player wins';
-            
+            this.dy = 0;
+            this.dx = 0;
         }
     
         players.forEach(player => {
@@ -34,7 +36,7 @@ class Ball {
                 this.dx *= -1;
             }
         });
-        return { ball: this, winner: this.winner };
+        return this;
     }
 }
 
