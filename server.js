@@ -9,7 +9,6 @@ const io = new Server(server);
 const Player = require('./game/player.js');
 const Ball = require('./game/ball.js');
 const Events = require('./game/events.js');
-const { restart } = require('nodemon');
 
 app.use(express.static(path.join(__dirname, 'client')));
 
