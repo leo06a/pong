@@ -1,5 +1,4 @@
 import { socket, winner_div, canvas, join_button, title_screen, ctx } from './constants.js';
-// import { animate } from './functions.js';
 import './events.js';
 
 let isAnimating;

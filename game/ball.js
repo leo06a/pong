@@ -1,5 +1,3 @@
-let winner;
-
 class Ball {
     constructor() {
         this.pos_x = 450,
