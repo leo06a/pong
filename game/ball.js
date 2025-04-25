@@ -5,8 +5,8 @@ class Ball {
     constructor() {
         this.pos_x = canvas_width / 2,
         this.pos_y = canvas_height / 2,
-        this.dx = Math.random() * (7 - 4) + 3;  // Random horizontal speed between 4 and 7
-        this.dy = Math.random() * (7 - 4) + 3;  // Random vertical speed between 4 and 7
+        this.dx = Math.random() * (7 - 4) + 4;  // Random horizontal speed between 4 and 7
+        this.dy = Math.random() * (7 - 4) + 4;  // Random vertical speed between 4 and 7
         this.size = 10,
         this.winner = null
     }
