@@ -1,5 +1,4 @@
-function check_boundaries(player) {
-}
+const canvas_height = 450;
 
 function handle_event(key, players, socket_id, io) {
     for (let i = 0; i < players.length; i++) {
@@ -17,8 +16,8 @@ function handle_event(key, players, socket_id, io) {
 
             if (players[i].pos_y <= 0) {
                 players[i].pos_y = 0;
-            } else if (players[i].pos_y >= 450 - players[i].height) {
-                players[i].pos_y = 450 - players[i].height;
+            } else if (players[i].pos_y >= canvas_height - players[i].height) {
+                players[i].pos_y = canvas_height - players[i].height;
             }
             io.emit('player_move', players[i]);
         }

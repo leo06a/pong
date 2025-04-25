@@ -62,7 +62,7 @@ io.on('connection', (socket) => {
 
     socket.on('player_vote', () => {
         vote_count++;
-        if (vote_count === players.length) {
+        if (vote_count === players.length && players.length > 1) {
             vote_count = 0;
             ball = new Ball();
             io.emit('reset', ball);

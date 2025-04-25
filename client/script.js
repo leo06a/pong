@@ -31,6 +31,10 @@ socket.on('player_move', (updated_player) => {
 
 socket.on('players_update', (server_players) => {
     players = server_players;
+
+    if (players.length === 1) {
+        alert('waiting for player...');
+    }
 });
 
 socket.on('ball_update', (updated_ball) => {
@@ -53,7 +57,6 @@ socket.on('reset', (new_ball) => {
     isAnimating = true;
     requestAnimationFrame(animate);
 });
-
 
 function draw_players() {
     players.forEach(player => {

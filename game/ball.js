@@ -1,7 +1,10 @@
+const canvas_width = 900;
+const canvas_height = 450;
+
 class Ball {
     constructor() {
-        this.pos_x = 450,
-        this.pos_y = 225,
+        this.pos_x = canvas_width / 2,
+        this.pos_y = canvas_height / 2,
         this.dx = 5,
         this.dy = 5,
         this.size = 10,
@@ -19,13 +22,13 @@ class Ball {
         this.pos_x += this.dx;
         this.pos_y += this.dy;
     
-        if (this.pos_y - this.size <= 0 || this.pos_y + this.size >= 450) {
+        if (this.pos_y - this.size <= 0 || this.pos_y + this.size >= canvas_height) {
             this.dy *= -1; 
         } else if (this.pos_x - this.size <= 0) {
             this.winner = 'right player wins';
             this.dy = 0;
             this.dx = 0;
-        } else if (this.pos_x + this.size >= 900) {
+        } else if (this.pos_x + this.size >= canvas_width) {
             this.winner = 'left player wins';
             this.dy = 0;
             this.dx = 0;
