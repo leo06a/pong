@@ -1,5 +1,8 @@
 canvas {
+  width: 900px;
+  height: 450px;
   border: 2px solid black;
+  border-radius: 10px;
   display: none;
 }
 
@@ -8,20 +11,6 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-}
-
-.player {
-  border: 2px solid black;
-  height: 100px;
-  width: 100px;
-}
-
-#playerLeft {
-  left: 30px;
-}
-
-#playerRight {
-  right: 30px;
 }
 
 #status {
