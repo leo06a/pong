@@ -24,14 +24,15 @@ body {
   right: 30px;
 }
 
-#winner {
-  width: 200px;
+#status {
+  width: 300px;
+  position: absolute;
   height: 100px;
-  display: none;
-  border: 1px solid black;
-  border-radius: 10px;
+  display: block;
+  font: 25px sans-serif;
   margin-top: 10px;
   text-align: center;
+  z-index: 10;
 }
 
 #title_screen {
@@ -43,19 +44,21 @@ body {
 }
 
 #join_game {
-  height: 40px;
-  width: 80px;
-  background-color: rgb(7, 177, 7);
+  font: 1em sans-serif;
+  height: 60px;
+  width: 100px;
+  background-color: rgb(42, 221, 42);
   border-radius: 10px;
   border: 1px solid black;
 }
 
-#join_game:hover {
-  background-color: rgb(10, 157, 10);
+#join_game:hover,
+#vote_button:hover {
+  background-color: rgb(30, 209, 30);
 }
 
 #game_title {
-  font-size: 3em;
+  font: 5em sans-serif;
   margin-bottom: 150px;
 }
 
@@ -64,7 +67,7 @@ body {
   margin-top: 10px;
   height: 40px;
   width: 80px;
-  background-color: rgb(7, 177, 7);
+  background-color: rgb(42, 221, 42);
   border-radius: 10px;
   border: 1px solid black;
 }

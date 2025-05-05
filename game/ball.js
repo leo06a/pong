@@ -5,8 +5,8 @@ class Ball {
     constructor() {
         this.pos_x = canvas_width / 2,
         this.pos_y = canvas_height / 2,
-        this.dx = Math.random() * (7 - 4) + 4;  // Random horizontal speed between 4 and 7
-        this.dy = Math.random() * (7 - 4) + 4;  // Random vertical speed between 4 and 7
+        this.dx = Math.random() * (7 - 4) + 4,  // Random horizontal speed between 4 and 7
+        this.dy = Math.random() * (7 - 4) + 4,  // Random vertical speed between 4 and 7
         this.size = 10
     }
     check_collision(player) {
@@ -24,11 +24,11 @@ class Ball {
         if (this.pos_y - this.size <= 0 || this.pos_y + this.size >= canvas_height) {
             this.dy *= -1; 
         } else if (this.pos_x - this.size <= 0) {
-            game.winner = 'right player wins';
+            game.winner = 'right player';
             this.dy = 0;
             this.dx = 0;
         } else if (this.pos_x + this.size >= canvas_width) {
-            game.winner = 'left player wins';
+            game.winner = 'left player';
             this.dy = 0;
             this.dx = 0;
         }
