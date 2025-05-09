@@ -23,7 +23,7 @@ game.ball = new Ball();
 io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('a user disconnected:', socket.id);
-        game.players = game.players.filter(player => player.id !== socket.id);
+        game.players = game.players.filter(player => player.id !== socket.id); // Remove disconnected player from players array
 
         io.emit('players_update', game.players);
     });
@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
         game.players.push(player);
     
         if (game.players.length > 1) {
-            game.players[1].pos_x = 870;
+            game.players[1].pos_x = 870; // Place second player on the right side of the canvas
             io.emit('game_init', game.ball);
 
             game.start_game_loop();

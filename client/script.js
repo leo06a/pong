@@ -26,7 +26,7 @@ socket.on('game_init', (init_ball) => {
 
 socket.on('player_move', (updated_player) => {
     const index = players.findIndex(p => p.id === updated_player.id);
-        players[index] = updated_player;
+    players[index] = updated_player; // Update local player data with latest position
 });
 
 socket.on('players_update', (server_players) => {
