@@ -10,7 +10,7 @@ class Game {
         this.winner = null
     }
     start_game_loop() {
-        if (!this.loop) {
+        if (!this.loop) { // Prevent multiple intervals from being created
             this.loop = true;
             setInterval(() => {
                 this.ball.update(this.players, this);

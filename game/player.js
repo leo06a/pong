@@ -5,7 +5,7 @@ class Player {
         this.pos_y = 0,
         this.width = 20,
         this.height = 100,
-        this.speed = 10
+        this.speed = 10 // Movement speed
     }
 }
 
