@@ -5,17 +5,18 @@ class Game {
         this.io = io,
         this.players = [],
         this.ball = null,
-        this.loop = false,
+        this.loop = null,
         this.vote_count = 0,
         this.winner = null
     }
     start_game_loop() {
-        if (!this.loop) { // Prevent multiple intervals from being created
-            this.loop = true;
-            setInterval(() => {
+        if (!this.loop) { // Check if loop is already running
+            this.loop = setInterval(() => {
                 this.ball.update(this.players, this);
                 if (this.winner) {
                     this.io.emit('game_over', this.winner);
+                    console.log('game over');
+                    clearInterval(this.loop);
                 }
                 this.io.emit('ball_update', this.ball);
             }, 1000 / 60);
