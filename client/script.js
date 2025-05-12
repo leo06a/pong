@@ -33,7 +33,6 @@ socket.on('players_update', (server_players) => {
     players = server_players;
 
     if (players.length === 1) {
-        console.log('helo');
         vote_button.style.display = 'none';
         status.style.display = 'block';
         status.textContent = 'waiting for another player to join...';
@@ -51,10 +50,6 @@ socket.on('game_over', (winner) => {
     status.style.display = 'block';
     vote_button.style.display = 'block';
     isAnimating = false;
-
-    if (players.length === 1) {
-        status.textContent = 'waiting for another player to join...';
-    }
 });
 
 socket.on('reset', (new_ball) => {
