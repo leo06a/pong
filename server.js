@@ -32,17 +32,28 @@ io.on('connection', (socket) => {
         console.log('a user connected:', socket.id);
 
         let player = new Player(socket.id);
-        game.players.push(player);
-    
-        if (game.players.length === 2) {
-            game.players[0].pos_x = 10; 
-            game.players[1].pos_x = 870; // Place second player on the right side of the canvas
-            io.emit('game_init', game.ball);
 
+        if (game.players.length === 1) {
+            // One player already in game, assign new player to the opposite side
+            // Ensures existing player does not switch sides
+            const existing = game.players[0];
+            if (existing.pos_x === 10) {
+                player.pos_x = 870;
+            } else {
+                player.pos_x = 10;
+            }
+            game.players.push(player);
+
+            // Start game
+            io.emit('game_init', game.ball);
             game.reset_game();
             game.start_game_loop();
+        } else if (game.players.length === 0) {
+            // First player to join, always left
+            player.pos_x = 10;
+            game.players.push(player);
         }
-    
+
         io.emit('players_update', game.players);
     });
 
