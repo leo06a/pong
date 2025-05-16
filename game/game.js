@@ -13,15 +13,21 @@ class Game {
         if (!this.loop) { // Check if loop is already running
             this.loop = setInterval(() => {
                 this.ball.update(this.players, this);
+                if (this.players.length === 1) {
+                    // If one player leaves while game is running, stop game loop
+                    this.stop_game_loop();
+                }
                 if (this.winner) {
                     this.io.emit('game_over', this.winner);
-                    console.log('game over');
-                    clearInterval(this.loop);
-                    this.loop = null; // Reset loop after stopping
+                    this.stop_game_loop();
                 }
                 this.io.emit('ball_update', this.ball);
             }, 1000 / 60);
         }
+    }
+    stop_game_loop() {
+        clearInterval(this.loop);
+        this.loop = null; // Reset loop after stopping
     }
     reset_game() {
         this.ball = new Ball();
