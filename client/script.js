@@ -1,5 +1,5 @@
 import { socket, status, canvas, join_button, title_screen, ctx, vote_button } from './constants.js';
-import { display_status, hide_status } from './utils.js';
+import { display_status, hide_status, display_vote_button, hide_vote_button } from './utils.js';
 import './events.js';
 
 let isAnimating;
@@ -34,7 +34,7 @@ socket.on('players_update', (server_players) => {
     players = server_players;
 
     if (players.length === 1) {
-        vote_button.style.display = 'none';
+        hide_vote_button();
         display_status('Waiting for another player to join...');
     } else {
         hide_status();
@@ -47,14 +47,13 @@ socket.on('ball_update', (updated_ball) => {
 
 socket.on('game_over', (winner) => {
     display_status(`${winner} wins!`);
-    vote_button.style.display = 'block';
+    display_vote_button();
     isAnimating = false;
 });
 
 socket.on('reset', (new_ball) => {
     ball = new_ball;
-    vote_button.style.display = 'none';
-    vote_button.disabled = false;
+    hide_vote_button();
     hide_status();
     isAnimating = true;
     requestAnimationFrame(animate);
