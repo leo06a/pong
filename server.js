@@ -35,6 +35,7 @@ io.on('connection', (socket) => {
         game.players.push(player);
     
         if (game.players.length === 2) {
+            game.players[0].pos_x = 10; 
             game.players[1].pos_x = 870; // Place second player on the right side of the canvas
             io.emit('game_init', game.ball);
 
